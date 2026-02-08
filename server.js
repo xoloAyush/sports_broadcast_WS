@@ -1,4 +1,5 @@
 import express from "express";
+import { matchRouter } from "./src/routes/matches.js";
 
 const app = express();
 
@@ -8,6 +9,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Hello from Express server 🚀");
 });
+
+app.use("/matches", matchRouter);
 
 // start server
 app.listen(3000, () => {
