@@ -2,6 +2,7 @@ import express from "express";
 import { matchRouter } from "./src/routes/matches.js";
 import { attachWebSocketServer } from "./src/ws/ws_server.js";
 import http from "http";
+import { securityMiddleware } from "./src/arcjet.js";
 
 const PORT = Number(process.env.PORT || 8000);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -11,9 +12,13 @@ const server = http.createServer(app);
 
 app.use(express.json());
 
+// 🔥 ADD THIS LINE
+app.set("trust proxy", true);
+
 app.get('/', (req, res) => {
     res.send('Hello from Express server!');
 });
+app.use(securityMiddleware());
 
 app.use('/matches', matchRouter);
 
