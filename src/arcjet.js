@@ -53,6 +53,15 @@ export const wsArcjet = arcjet({
     ],
 });
 
+/**
+ * Creates an Express middleware that enforces Arcjet protection for incoming HTTP requests.
+ *
+ * The middleware detects and normalizes the client IP, invokes Arcjet protection with the IP as both
+ * `ip` and `clientId`, and enforces decisions by returning HTTP 429 for rate limits, HTTP 403 for other
+ * denials, and HTTP 503 on internal Arcjet errors. Calls `next()` when the request is allowed.
+ *
+ * @returns {Function} An Express middleware function (req, res, next) implementing the described behaviour.
+ */
 export function securityMiddleware() {
     return async (req, res, next) => {
         try {
@@ -103,4 +112,3 @@ export function securityMiddleware() {
         }
     };
 }
-
