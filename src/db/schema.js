@@ -30,22 +30,19 @@ export const matches = pgTable("matches", {
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const commentary = pgTable("commentary", {
-    id: serial("id").primaryKey(),
-
-    matchId: integer("match_id")
+export const commentary = pgTable('commentary', {
+    id: serial('id').primaryKey(),
+    matchId: integer('match_id')
         .notNull()
-        .references(() => matches.id, { onDelete: "cascade" }),
-
-    actor: text("actor"), // who (player, referee, system, commentator)
-
-    message: text("message").notNull(), // what happened
-
-    minute: integer("minute"), // when (e.g. 45, 90+2)
-
-    sequenceNo: integer("sequence_no").notNull(), // strict ordering
-
-    details: jsonb("details"), // "anything bucket"
-
-    createdAt: timestamp("created_at").defaultNow().notNull(),
+        .references(() => matches.id),
+    minute: integer('minute'),
+    sequence: integer('sequence'),
+    period: text('period'),
+    event_type: text('event_type'),
+    actor: text('actor'),
+    team: text('team'),
+    message: text('message').notNull(),
+    metadata: jsonb('metadata'),
+    tags: text('tags').array(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
 });
